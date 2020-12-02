@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>   
+<form onsubmit="Test()">
+    <div class="flex">
+    <p>Test Title: </p><br><input id="title" type="text" placeholder="Test Name" required>
+    <p>Subject: </p><br><select name="subject" id="Subject">
+        <optgroup label="Class I - X">
+        <option value="Mathematics">Mathematics</option>
+        <option value="Physics">Physics</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Computer">Computer</option>
+        <option value="English">English</option>
+        <option value="Hindi">Hindi</option>
+        </optgroup>
+        <optgroup label="Class XI - XII">
+            <option value="Commerce">Commerce</option>
+            <option value="Science">Science</option>
+
+</optgroup>
+    </select>
+    <p>For Class: </p><br><input onKeyPress="if(this.value>12) return false;" type="number" id="class" min="1" max="12" placeholder="Class" required>
+</div>
+<div class="flex" style="margin-top:4%;">
+<p>Max Marks: </p><br><input type="number" id="max" placeholder="Maximum Marks" required>
+<p>Time Alloted: (in minutes)</p><br><input type="number" id="time" placeholder="Time" required>
+</div>
+<button type="submit" style="margin-top:7.5%;">Click To Create Test</button>
+
+</form>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-database.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyBheUYJUa2gLff8PgKLQY5hShc6K6b2Zeo",
+    authDomain: "test-de-take.firebaseapp.com",
+    databaseURL: "https://test-de-take.firebaseio.com",
+    projectId: "test-de-take",
+    storageBucket: "test-de-take.appspot.com",
+    messagingSenderId: "788661992053",
+    appId: "1:788661992053:web:38365287dc03bbdc5a163c"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+<script>
+    var database=firebase.database();
+    var test;
+    database.ref('Tests/tests').on('value',function(data){test=data.val()})
+    function Test(){
+     test++;
+     database.ref('/Tests').set({tests:test});
+     var subject=document.getElementById("Subject").value;
+     var title=document.getElementById("title").value;
+     var Class=document.getElementById("class").value;
+     var Maximum=document.getElementById("max").value;
+     var time=document.getElementById("time").value;
+     database.ref(Class+","+subject+","+title).set({A_Test_No:test,B_Subject:subject,C_Title:title,D_Max:Maximum,E_Time:time,F_Report:"Report"})
+     window.open("question.html"+"?"+Class+","+subject+","+title)
+    }
+</script>
+</body>
+</html>
